@@ -2,14 +2,13 @@ import React, { useState } from "react";
 
 export default function TextForm(props) {
   const handleUpClick = () => {
-    // console.log("Uppercase was clicked"+ text);
     let newText = text.toUpperCase();
     setText(newText);
     props.showAlert("Converted to Uppercase");
   };
   const handleOnChange = (event) => {
-    // console.log("on change");
     setText(event.target.value);
+    localStorage.setItem("text", event.target.value);
   };
 
   const handleLowClick = () => {
@@ -21,7 +20,6 @@ export default function TextForm(props) {
     setText(newText);
     props.showAlert("Text Cleared!");
   };
-
   const handleCopyClick = () => {
     navigator.clipboard.writeText(text);
     props.showAlert("Text copied to clipboard");
@@ -32,10 +30,8 @@ export default function TextForm(props) {
     props.showAlert("Extra spaces removed");
   };
 
-  const [text, setText] = useState("");
-
-  // text= "new text";//wrong way to change the state
-  // setText("new text");//correct way to change the state
+  const [text, setText] = useState(
+    localStorage.getItem("text") || "");
   return (
     <>
       <div
@@ -45,7 +41,7 @@ export default function TextForm(props) {
           color: props.mode === "dark" ? "#f9fafb" : "black",
         }}
       >
-        <h1 className="text-2xl font-semibold text-center mb-2">
+        <h1 className="text-2xl font-semibold text-center mx-3 my-3">
           {props.heading}
         </h1>
         <div className="max-w-xl mx-auto mt-10 px-6 ">

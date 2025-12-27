@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar.jsx";
@@ -7,33 +7,43 @@ import About from "./components/About.jsx";
 import Alert from "./components/Alert.jsx";
 
 function App() {
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState(
+    localStorage.getItem("mode") || "light"
+  );
+
   const [alertMsg, setAlertMsg] = useState("");
   const [showAlert, setShowAlert] = useState(false);
 
-  // 🔔 Central alert handler (used everywhere)
+  // 🔔 Central alert handler
   const showAlertMessage = (message) => {
     setAlertMsg(message);
     setShowAlert(true);
     setTimeout(() => setShowAlert(false), 1500);
   };
 
+  // ✅ Sync side-effect on load & mode change
+  useEffect(() => {
+    document.body.style.backgroundColor =
+      mode === "dark" ? "#121212" : "white";
+  }, [mode]);
+
   const toggleMode = () => {
-    if (mode === "light") {
-      setMode("dark");
-      document.body.style.backgroundColor = "#121212";
-      showAlertMessage("Dark mode has been enabled");
-    } else {
-      setMode("light");
-      document.body.style.backgroundColor = "white";
-      showAlertMessage("Light mode has been enabled");
-    }
+    const newMode = mode === "light" ? "dark" : "light";
+    setMode(newMode);
+    localStorage.setItem("mode", newMode);
+
+    showAlertMessage(
+      newMode === "dark"
+        ? "Dark mode has been enabled"
+        : "Light mode has been enabled"
+    );
   };
 
   return (
     <BrowserRouter>
       <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
 
+      {/* CLS-safe alert */}
       <Alert alert={showAlert ? alertMsg : ""} />
 
       <Routes>
@@ -41,7 +51,7 @@ function App() {
           path="/"
           element={
             <TextForm
-              heading="TextUtils - Word Counter & Text Manipulator"
+              heading="TextUtils- Word Counter & Text Manipulator"
               mode={mode}
               showAlert={showAlertMessage}
             />
