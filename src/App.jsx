@@ -34,22 +34,20 @@ function App() {
     <BrowserRouter>
       <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
 
-      {showAlert && (
-        <Alert alert={alertMsg} onClose={() => setShowAlert(false)} />
-      )}
+      <Alert alert={showAlert ? alertMsg : ""} />
 
       <Routes>
         <Route
           path="/"
           element={
             <TextForm
-              heading="Enter the text to analyze"
+              heading="TextUtils - Word Counter & Text Manipulator"
               mode={mode}
               showAlert={showAlertMessage}
             />
           }
         />
-        <Route path="/about" element={<About />} />
+        <Route path="/about" element={<About mode={mode} />} />
       </Routes>
     </BrowserRouter>
   );

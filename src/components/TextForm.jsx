@@ -38,14 +38,17 @@ export default function TextForm(props) {
   // setText("new text");//correct way to change the state
   return (
     <>
-      <div className="container" style={{
-              backgroundColor: props.mode === "dark" ? "" : "white",
-              color: props.mode === "dark" ? "#f9fafb" : "black",
-            }}>
-        <h1 className="text-3xl font-semibold mt-6 text-center">
-          {props.heading}{" "}
+      <div
+        className="container"
+        style={{
+          backgroundColor: props.mode === "dark" ? "" : "white",
+          color: props.mode === "dark" ? "#f9fafb" : "black",
+        }}
+      >
+        <h1 className="text-2xl font-semibold text-center mb-2">
+          {props.heading}
         </h1>
-        <div className="max-w-xl mx-auto mt-10 ">
+        <div className="max-w-xl mx-auto mt-10 px-6 ">
           <label htmlFor="myBox" className="form-label"></label>
           <textarea
             className="w-full h-40 border p-3 rounded"
@@ -57,47 +60,82 @@ export default function TextForm(props) {
             }}
           ></textarea>
 
-          <div className="mt-4 gap-4 flex justify-center">
+          <div className="mt-4 grid grid-cols-2 gap-3 px-4">
             <button
-              className="mt-3 bg-green-800 text-white px-4 py-2 rounded"
+              disabled={text.length === 0}
+              className="bg-emerald-700 text-white 
+             py-3 rounded-lg 
+             text-sm font-medium
+             transition active:scale-[0.97]"
               onClick={handleUpClick}
             >
-              convert to UpperCase
+              Convert to Uppercase
             </button>
+
             <button
-              className="mt-3 bg-green-800 text-white px-4 py-2 rounded"
+              disabled={text.length === 0}
+              className="bg-emerald-700 text-white 
+             py-3 rounded-lg 
+             text-sm font-medium
+             transition active:scale-[0.97]"
               onClick={handleLowClick}
             >
-              convert to LowerCase
+              Convert to LowerCase
             </button>
+
             <button
-              className="mt-3 bg-green-800 text-white px-4 py-2 rounded"
+              disabled={text.length === 0}
+              className="bg-emerald-700 text-white 
+             py-3 rounded-lg 
+             text-sm font-medium
+             transition active:scale-[0.97]"
               onClick={handleClearClick}
             >
               Clear Text
             </button>
+
             <button
-              className="mt-3 bg-green-800 text-white px-4 py-2 rounded"
+              disabled={text.length === 0}
+              className="bg-emerald-700 text-white 
+             py-3 rounded-lg 
+             text-sm font-medium
+             transition active:scale-[0.97]"
               onClick={handleCopyClick}
             >
               Copy
             </button>
+
             <button
-              className="mt-3 bg-green-800 text-white px-4 py-2 rounded"
+              disabled={text.length === 0}
+              className="bg-emerald-700 text-white 
+             py-3 rounded-lg 
+             text-sm font-medium
+             transition active:scale-[0.97]"
               onClick={handleExtraSpaces}
             >
               Remove Extra Space
             </button>
           </div>
         </div>
-        <div className="cointainer my-2 mx-26">
+        <div className=" my-2 mx-26">
           <h1 className="text-3xl font-semibold mt-6 "> Your text summary</h1>
           <p>
-            {text.split(" ").length} words and {text.length} characters
+            {
+              text.split(" ").filter((element) => {
+                return element.length !== 0;
+              }).length
+            }{" "}
+            words and {text.length} characters
           </p>
-          <p>{0.008 * text.split(" ").length} Minutes read</p>
+          <p>
+            {0.008 *
+              text.split(" ").filter((element) => {
+                return element.length !== 0;
+              }).length}{" "}
+            Minutes read
+          </p>
           <h2 className="text-2xl font-semibold my-6">Preview</h2>
-          <p>{text.length>0?text: "Enter something to preview it here"}</p>
+          <p>{text.length > 0 ? text : "Nothing to preview"}</p>
         </div>
       </div>
     </>
